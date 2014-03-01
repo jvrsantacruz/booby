@@ -198,12 +198,15 @@ class Model(object):
 
         return json.dumps(dict(self), *args, **kwargs)
 
+    def __str__(self):
+        return self.__class__.__name__
+
     @classmethod
     def describe(cls):
         """This method returns a JSON Schema representation of the `model`"""
         return {
             "type": "object",
-            "description": str(cls),
+            "title": str(cls),
             "properties": {
                 name: field.describe() for name, field in cls._fields.items()
             }

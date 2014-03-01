@@ -193,7 +193,7 @@ class TestFieldBuiltinDescriptions(object):
 
         description = field.describe()
 
-        expect(description).to.have.key('description', str(field))
+        expect(description).to.have.key('title', str(field))
 
     def test_when_described_should_have_all_its_validators_described(self):
         validator1 = Object(describe=Spy(returns={'v1': 1}))

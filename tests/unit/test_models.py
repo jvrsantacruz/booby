@@ -221,6 +221,11 @@ class TestModelDescribe(object):
 
         expect(description).to.have.key('type', 'object')
 
+    def test_when_model_describes_then_returns_its_description(self):
+        description = self.user.describe()
+
+        expect(description['title']).to.be(str(self.user))
+
     def test_when_model_describes_then_returns_properties_as_dict(self):
         description = self.user.describe()
 

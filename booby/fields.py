@@ -109,7 +109,7 @@ class Field(object):
         return self.__class__.__name__
 
     def describe(self):
-        description = {"description": str(self)}
+        description = {"title": str(self)}
 
         for validator in self.validators:
             description.update(validator.describe())

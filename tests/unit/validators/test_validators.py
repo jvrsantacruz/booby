@@ -29,6 +29,10 @@ class TestIn(object):
     def test_when_value_is_in_choices_then_does_not_raise(self):
         self.validator('bar')
 
+    def test_when_described_then_includes_enum_clause(self):
+        expect(self.validator.describe()).to.have.key(
+            'enum', self.validator.choices)
+
     def setup(self):
         self.validator = validators.In(['foo', 'bar'])
 
@@ -39,6 +43,9 @@ class TestString(mixins.String):
 
     def test_when_value_is_unicode_then_does_not_raise(self):
         self.validator('foo')
+
+    def test_when_described_then_type_is_string(self):
+        expect(self.validator.describe()).to.have.key('type', 'string')
 
     def setup(self):
         self.validator = validators.String()
@@ -55,6 +62,9 @@ class TestInteger(object):
     def test_when_value_is_none_then_does_not_raise(self):
         self.validator(None)
 
+    def test_when_described_then_type_is_integer(self):
+        expect(self.validator.describe()).to.have.key('type', 'integer')
+
     def setup(self):
         self.validator = validators.Integer()
 
@@ -70,6 +80,9 @@ class TestFloat(object):
     def test_when_value_is_none_then_does_not_raise(self):
         self.validator(None)
 
+    def test_when_described_then_type_is_number(self):
+        expect(self.validator.describe()).to.have.key('type', 'number')
+
     def setup(self):
         self.validator = validators.Float()
 
@@ -84,6 +97,9 @@ class TestBoolean(object):
 
     def test_when_value_is_none_then_does_not_raise(self):
         self.validator(None)
+
+    def test_when_described_then_type_is_boolean(self):
+        expect(self.validator.describe()).to.have.key('type', 'boolean')
 
     def setup(self):
         self.validator = validators.Boolean()

@@ -105,6 +105,17 @@ class Field(object):
         for validator in self.validators:
             validator(value)
 
+    def __str__(self):
+        return self.__class__.__name__
+
+    def describe(self):
+        description = {"description": str(self)}
+
+        for validator in self.validators:
+            description.update(validator.describe())
+
+        return description
+
 
 class String(Field):
     """:class:`Field` subclass with builtin `string` validation."""
@@ -150,6 +161,9 @@ class Embedded(Field):
             value = self.model(**value)
 
         super(Embedded, self).__set__(instance, value)
+
+    def describe(self):
+        return self.model.describe()
 
 
 class Email(Field):

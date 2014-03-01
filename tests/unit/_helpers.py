@@ -7,12 +7,23 @@ def stub_validator(value):
     pass
 
 
+class Object(object):
+    def __init__(self, *method_names, **methods):
+        for name in method_names:
+            setattr(self, name, Spy())
+
+        for name, method in methods.items():
+            setattr(self, name, method)
+
+
 class Spy(object):
-    def __init__(self):
+    def __init__(self, returns=None):
         self.times_called = 0
+        self.returns = returns
 
     def __call__(self):
         self.times_called += 1
+        return self.returns
 
 
 class MyList(collections.MutableSequence):

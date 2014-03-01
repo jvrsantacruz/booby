@@ -66,6 +66,9 @@ class Validator(object):
     def validate(self, value):
         raise NotImplementedError()
 
+    def describe(self):
+        return {}
+
 
 class Required(Validator):
     """This validator forces fields to have a value other than :keyword:`None`."""
@@ -89,6 +92,9 @@ class In(Validator):
         if value not in self.choices:
             raise errors.ValidationError('should be in {}'.format(self.choices))
 
+    def describe(self):
+        return {'enum': self.choices}
+
 
 class String(Validator):
     """This validator forces fields values to be an instance of `basestring`."""
@@ -97,6 +103,9 @@ class String(Validator):
     def validate(self, value):
         if not isinstance(value, basestring):
             raise errors.ValidationError('should be a string')
+
+    def describe(self):
+        return {'type': 'string'}
 
 
 class Integer(Validator):
@@ -107,6 +116,9 @@ class Integer(Validator):
         if not isinstance(value, int):
             raise errors.ValidationError('should be an integer')
 
+    def describe(self):
+        return {'type': 'integer'}
+
 
 class Float(Validator):
     """This validator forces fields values to be an instance of `float`."""
@@ -116,6 +128,9 @@ class Float(Validator):
         if not isinstance(value, float):
             raise errors.ValidationError('should be a float')
 
+    def describe(self):
+        return {'type': 'number'}
+
 
 class Boolean(Validator):
     """This validator forces fields values to be an instance of `bool`."""
@@ -124,6 +139,9 @@ class Boolean(Validator):
     def validate(self, value):
         if not isinstance(value, bool):
             raise errors.ValidationError('should be a boolean')
+
+    def describe(self):
+        return {'type': 'boolean'}
 
 
 class Model(Validator):
@@ -165,6 +183,12 @@ class Email(String):
         if self.pattern.match(value) is None:
             raise errors.ValidationError('should be a valid email')
 
+    def describe(self):
+        return {
+            'type': 'string',
+            'pattern': self.pattern.pattern
+        }
+
 
 class List(Validator):
     """This validator forces field values to be a :keyword:`list`.
@@ -188,3 +212,6 @@ class List(Validator):
         for i in value:
             for validator in self.validators:
                 validator(i)
+
+    def describe(self):
+        return {'type': 'array'}

@@ -215,6 +215,26 @@ class TestModelToJSON(object):
         self.user = User(name='Jack', email='jack@example.com')
 
 
+class TestModelDescribe(object):
+    def test_when_model_describes_then_returns_type_as_object(self):
+        description = self.user.describe()
+
+        expect(description).to.have.key('type', 'object')
+
+    def test_when_model_describes_then_returns_properties_as_dict(self):
+        description = self.user.describe()
+
+        expect(description['properties']).to.be.a(dict)
+
+    def test_when_model_describes_then_returns_its_properties_descriptions(self):
+        description = self.user.describe()
+
+        expect(description['properties']['name']).to.be.a(dict)
+
+    def setup(self):
+        self.user = User(name='Jack', email='jack@example.com')
+
+
 class User(models.Model):
     name = fields.String()
     email = fields.String()

@@ -59,6 +59,9 @@ class ModelMeta(type):
 
         return super(ModelMeta, cls).__new__(cls, name, bases, attrs)
 
+    def __str__(self):
+        return self.__name__
+
 
 class Model(object):
     """The `Model` class. All Booby models should subclass this.
@@ -194,3 +197,14 @@ class Model(object):
         """
 
         return json.dumps(dict(self), *args, **kwargs)
+
+    @classmethod
+    def describe(cls):
+        """This method returns a JSON Schema representation of the `model`"""
+        return {
+            "type": "object",
+            "description": str(cls),
+            "properties": {
+                name: field.describe() for name, field in cls._fields.items()
+            }
+        }

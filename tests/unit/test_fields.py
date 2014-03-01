@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import collections
 
 from expects import expect
-from ._helpers import Spy, stub_validator
+from ._helpers import Object, Spy, stub_validator
 
 from booby import fields, errors, models
 
@@ -185,6 +185,24 @@ class TestFieldBuiltinValidations(object):
         field = fields.Field()
 
         field.validate('foo')
+
+
+class TestFieldBuiltinDescriptions(object):
+    def test_when_described_it_returns_its_description(self):
+        field = fields.Field()
+
+        description = field.describe()
+
+        expect(description).to.have.key('description', str(field))
+
+    def test_when_described_should_have_all_its_validators_described(self):
+        validator1 = Object(describe=Spy(returns={'v1': 1}))
+        validator2 = Object(describe=Spy(returns={'v2': 2}))
+        field = fields.Field(validator1, validator2)
+
+        description = field.describe()
+
+        expect(description).to.have.keys(v1=1, v2=2)
 
 
 class TestEmbeddedFieldBuildtinValidators(object):

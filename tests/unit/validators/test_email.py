@@ -33,5 +33,11 @@ class TestEmail(mixins.String):
         expect(lambda: self.validator('')).to.raise_error(
             errors.ValidationError, 'should be a valid email')
 
+    def test_when_described_then_type_is_string(self):
+        expect(self.validator.describe()).to.have.key('type', 'string')
+
+    def test_when_described_then_pattern_is_email_pattern(self):
+        expect(self.validator.describe()).to.have.key('pattern', self.validator.pattern.pattern)
+
     def setup(self):
         self.validator = validators.Email()

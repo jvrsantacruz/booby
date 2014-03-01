@@ -33,5 +33,8 @@ class TestList(object):
         expect(lambda: self.validator(['foo', 'bar'])).to.raise_error(
             errors.ValidationError, 'invalid')
 
+    def test_when_described_then_type_is_array(self):
+        expect(self.validator.describe()).to.have.key('type', 'array')
+
     def setup(self):
         self.validator = validators.List()

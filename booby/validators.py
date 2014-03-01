@@ -77,6 +77,9 @@ class Required(Validator):
         if value is None:
             raise errors.ValidationError('is required')
 
+    def describe(self):
+        return {'required': True}
+
 
 class In(Validator):
     """This validator forces fields to have their value in the given list.

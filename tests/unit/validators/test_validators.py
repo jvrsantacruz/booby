@@ -17,6 +17,9 @@ class TestRequired(object):
     def test_when_value_is_not_none_then_does_not_raise(self):
         self.validator('foo')
 
+    def test_when_described_then_includes_enum_clause(self):
+        expect(self.validator.describe()).to.have.key('required', True)
+
     def setup(self):
         self.validator = validators.Required()
 
